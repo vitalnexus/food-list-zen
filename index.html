@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Zen Grocery List</title>
+<style>
+:root{--bg:#FFFFFF;--text:#2E2E2E;--accent:#A3C1DA}
+html,body{margin:0;padding:0;height:100%;width:100%;background:var(--bg);font-family:Arial,sans-serif;color:var(--text);display:flex;flex-direction:column}
+header{background:var(--accent);color:var(--text);padding:2rem 1rem;text-align:center}
+header h1{margin:0;font-size:3rem;animation:pulse 2s infinite}
+header p{margin:0.5rem 0 0;font-size:1.2rem;animation:fadeIn 4s infinite}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes fadeIn{0%{opacity:0.6}100%{opacity:1}}
+main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:1rem}
+#inputArea{width:100%;max-width:600px;display:flex;margin-bottom:1rem}
+#itemInput{flex:1;padding:0.75rem;font-size:1rem;border:1px solid var(--text);background:var(--bg);color:var(--text)}
+#itemInput:focus{outline:none;border-color:var(--accent)}
+#list{width:100%;max-width:600px;list-style:none;padding:0}
+.list-item{padding:0.75rem;margin-bottom:0.5rem;background:var(--bg);color:var(--text);border-left:5px solid var(--accent);display:flex;justify-content:space-between;align-items:center;animation:slideIn 0.3s ease-out}
+@keyframes slideIn{from{transform:translateX(-20px);opacity:0}to{transform:translateX(0);opacity:1}}
+.list-item span{font-size:0.9rem}
+.list-item button{background:transparent;border:none;color:var(--accent);font-size:1rem;cursor:pointer}
+.list-item button:hover{color:var(--text)}
+footer{background:var(--text);color:var(--bg);text-align:center;padding:1rem;font-size:0.9rem}
+</style>
+</head>
+<body>
+<header>
+<h1>Zen Grocery List</h1>
+<p>A minimalist, color‑coded grocery list that updates in real time.</p>
+</header>
+<main>
+<div id="inputArea"><input type="text" id="itemInput" placeholder="Add an item and press Enter" autocomplete="off"/></div>
+<ul id="list"></ul>
+</main>
+<footer>Made by kim</footer>
+<script>
+const input=document.getElementById('itemInput');const list=document.getElementById('list');
+input.addEventListener('keydown',e=>{if(e.key==='Enter'){const text=input.value.trim();if(text){addItem(text);input.value='';}}});
+function addItem(text){const li=document.createElement('li');li.className='list-item';li.innerHTML='<span>'+escapeHtml(text)+'</span><button aria-label="Delete">✕</button>';list.appendChild(li);li.querySelector('button').addEventListener('click',()=>{li.remove();});}
+function escapeHtml(str){return str.replace(/[&<>"']/g,m=>{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]);}
+</script>
+</body>
+</html>
